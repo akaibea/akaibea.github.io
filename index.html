@@ -3,505 +3,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Table Tennis</title>
+<title>🏓 Table Tennis</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #1a2a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: radial-gradient(ellipse at center, #1e3a1e 0%, #0d1f0d 100%);
     min-height: 100vh;
-    font-family: 'Lato', sans-serif;
-    overflow: hidden;
-  }
-
-  #overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10,20,10,0.92);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
-    backdrop-filter: blur(4px);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    user-select: none;
   }
 
-  #menu {
-    background: linear-gradient(145deg, #2d4a2d, #1a3020);
-    border: 2px solid #4a7c4a;
-    border-radius: 16px;
-    padding: 48px 56px;
-    text-align: center;
-    box-shadow: 0 0 60px rgba(0,200,80,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
-    min-width: 360px;
-  }
-
-  #menu h1 {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 3.2rem;
-    color: #c8e6c8;
-    letter-spacing: 4px;
-    text-shadow: 0 0 30px rgba(100,255,100,0.3);
-    margin-bottom: 8px;
-  }
-
-  #menu .subtitle {
-    color: #6a9e6a;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 36px;
-  }
-
-  .field-group {
-    margin-bottom: 24px;
-    text-align: left;
-  }
-
-  .field-group label {
-    display: block;
-    color: #8ab88a;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-
-  .btn-group {
+  /* ── MENU ── */
+  #screen-menu {
     display: flex;
-    gap: 8px;
-  }
-
-  .opt-btn {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid #4a7c4a;
-    background: transparent;
-    color: #8ab88a;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-  }
-
-  .opt-btn:hover { border-color: #7ab87a; color: #b8d8b8; }
-  .opt-btn.active {
-    background: #3d6b3d;
-    border-color: #7ac87a;
-    color: #e8f8e8;
-    box-shadow: 0 0 12px rgba(100,200,100,0.3);
-  }
-
-  .points-input {
-    width: 100%;
-    padding: 10px 14px;
-    background: #1a3020;
-    border: 2px solid #4a7c4a;
-    border-radius: 8px;
-    color: #c8e8c8;
-    font-size: 1.1rem;
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 2px;
-    outline: none;
-    text-align: center;
-    transition: border-color 0.2s;
-  }
-
-  .points-input:focus { border-color: #7ac87a; }
-
-  #startBtn {
-    margin-top: 16px;
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #3d7a3d, #2d5a2d);
-    border: 2px solid #6ab86a;
-    border-radius: 10px;
-    color: #e0f4e0;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(100,200,100,0.2);
-  }
-
-  #startBtn:hover {
-    background: linear-gradient(135deg, #4d8a4d, #3d6a3d);
-    box-shadow: 0 6px 30px rgba(100,200,100,0.35);
-    transform: translateY(-1px);
-  }
-
-  #gameWrapper {
-    position: relative;
-    display: none;
-  }
-
-  #scoreBoard {
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 12px 24px;
-    background: #1a3020;
-    border-radius: 10px 10px 0 0;
-    border: 2px solid #4a7c4a;
-    border-bottom: none;
+    animation: fadeIn 0.4s ease;
   }
 
-  .player-score {
-    text-align: center;
-  }
-
-  .player-name {
-    font-size: 0.7rem;
-    color: #6a9e6a;
-    letter-spacing: 2px;
+  .game-title {
+    font-size: 3.6rem;
+    font-weight: 900;
+    color: #e8f5e8;
+    letter-spacing: 6px;
     text-transform: uppercase;
+    text-shadow: 0 0 24px rgba(120,255,120,0.35), 0 2px 6px rgba(0,0,0,0.7);
+    margin-bottom: 4px;
   }
 
-  .score-num {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 2.4rem;
-    color: #c8e8c8;
-    line-height: 1;
+  .game-subtitle {
+    font-size: 0.75rem;
+    color: #4a8e4a;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
   }
 
-  .vs-text {
-    font-family: 'Bebas Neue', cursive;
-    color: #4a7c4a;
-    font-size: 1.2rem;
+  .menu-card {
+    background: linear-gradient(160deg, #223622 0%, #172617 100%);
+    border: 1px solid #3a6030;
+    border-radius: 20px;
+    padding: 38px 46px;
+    width: 380px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: #527852;
     letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-top: 22px;
+  }
+  .field-label:first-child { margin-top: 0; }
+
+  .btn-row { display: flex; gap: 8px; }
+
+  .choice-btn {
+    flex: 1;
+    padding: 11px 6px;
+    background: rgba(0,0,0,0.25);
+    border: 1.5px solid #325032;
+    border-radius: 10px;
+    color: #5a8a5a;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .choice-btn:hover { border-color: #558055; color: #9ec89e; background: rgba(255,255,255,0.05); }
+  .choice-btn.active {
+    background: linear-gradient(135deg, #2c602c, #1c481c);
+    border-color: #60b860;
+    color: #c0ecc0;
+    box-shadow: 0 0 14px rgba(70,190,70,0.22);
+  }
+
+  .num-input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0,0,0,0.3);
+    border: 1.5px solid #325032;
+    border-radius: 10px;
+    color: #c0ecc0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    letter-spacing: 2px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .num-input:focus { border-color: #60b860; box-shadow: 0 0 0 3px rgba(96,184,96,0.12); }
+
+  .start-btn {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #2c7830 0%, #1c5020 100%);
+    border: 1.5px solid #58b858;
+    border-radius: 12px;
+    color: #daf4da;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 22px rgba(50,160,50,0.28), inset 0 1px 0 rgba(255,255,255,0.14);
+  }
+  .start-btn:hover {
+    background: linear-gradient(135deg, #388040, #286030);
+    box-shadow: 0 6px 32px rgba(50,180,50,0.42);
+    transform: translateY(-2px);
+  }
+  .start-btn:active { transform: translateY(0); }
+
+  /* ── GAME ── */
+  #screen-game {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 700px;
+    padding: 13px 28px;
+    background: linear-gradient(90deg, #172617, #1c341c, #172617);
+    border: 1.5px solid #365836;
+    border-bottom: none;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .p-block { text-align: center; }
+  .p-label { font-size: 0.63rem; font-weight: 700; color: #487248; letter-spacing: 3px; text-transform: uppercase; }
+  .p-score { font-size: 2.5rem; font-weight: 900; color: #c0ecc0; line-height: 1.05; text-shadow: 0 0 18px rgba(90,210,90,0.18); }
+
+  .vs-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #385838;
+    letter-spacing: 4px;
+    background: rgba(0,0,0,0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #284828;
   }
 
   canvas {
     display: block;
-    border: 2px solid #4a7c4a;
+    border: 1.5px solid #365836;
     border-top: none;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 14px 14px;
   }
 
-  #gameOverOverlay {
+  .hint {
+    margin-top: 11px;
+    font-size: 0.65rem;
+    color: #385838;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── GAME OVER ── */
+  #gameover-overlay {
+    display: none;
     position: absolute;
     inset: 0;
-    background: rgba(10,20,10,0.9);
-    display: none;
+    background: rgba(4,12,4,0.88);
+    border-radius: 0 0 14px 14px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 0 0 10px 10px;
-    backdrop-filter: blur(6px);
-    gap: 20px;
+    gap: 14px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  #gameOverMsg {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 3rem;
-    letter-spacing: 6px;
-    color: #c8e8c8;
-    text-shadow: 0 0 40px rgba(100,255,100,0.4);
+  .result-emoji { font-size: 3.8rem; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+
+  .result-text {
+    font-size: 2.3rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    text-shadow: 0 0 36px currentColor;
+    animation: popIn 0.4s 0.08s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  .result-sub {
+    font-size: 0.75rem;
+    color: #507850;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: -6px;
+    margin-bottom: 8px;
+  }
+
+  .end-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: popIn 0.4s 0.16s cubic-bezier(0.34,1.56,0.64,1) both;
   }
 
   .end-btn {
-    padding: 12px 36px;
-    border-radius: 8px;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.3rem;
-    letter-spacing: 3px;
+    padding: 11px 26px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
-    border: 2px solid;
+    border: 1.5px solid;
     transition: all 0.2s;
   }
 
-  #playAgainBtn {
-    background: #2d5a2d;
-    border-color: #6ab86a;
-    color: #e0f4e0;
-  }
+  .btn-again  { background: linear-gradient(135deg,#285228,#183818); border-color:#58b258; color:#b8ecb8; box-shadow:0 4px 14px rgba(50,150,50,0.28); }
+  .btn-again:hover  { background:linear-gradient(135deg,#346434,#245024); transform:translateY(-2px); }
+  .btn-menu   { background:rgba(255,255,255,0.04); border-color:#486888; color:#88b0c8; }
+  .btn-menu:hover   { background:rgba(72,104,136,0.14); transform:translateY(-2px); }
+  .btn-exit   { background:rgba(255,255,255,0.03); border-color:#884040; color:#c88888; }
+  .btn-exit:hover   { background:rgba(136,64,64,0.14); transform:translateY(-2px); }
 
-  #playAgainBtn:hover { background: #3d6a3d; transform: translateY(-1px); }
+  #canvas-wrap { position: relative; }
 
-  #exitBtn {
-    background: transparent;
-    border-color: #7a4a4a;
-    color: #d49090;
-  }
-
-  #exitBtn:hover { background: #3a2020; transform: translateY(-1px); }
-
-  #toMenuBtn {
-    background: transparent;
-    border-color: #4a6a7a;
-    color: #90b4c8;
-  }
-
-  #toMenuBtn:hover { background: #1a2a3a; transform: translateY(-1px); }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn  { from{opacity:0;transform:scale(0.65)} to{opacity:1;transform:scale(1)} }
 </style>
 </head>
 <body>
 
-<div id="overlay">
-  <div id="menu">
-    <h1>Table Tennis</h1>
-    <p class="subtitle">1 vs Computer</p>
-
-    <div class="field-group">
-      <label>Difficulty</label>
-      <div class="btn-group">
-        <button class="opt-btn active" data-diff="easy">Easy</button>
-        <button class="opt-btn" data-diff="medium">Medium</button>
-        <button class="opt-btn" data-diff="hard">Hard</button>
-      </div>
+<!-- MENU -->
+<div id="screen-menu">
+  <h1 class="game-title">🏓 Table Tennis</h1>
+  <p class="game-subtitle">Player vs Computer</p>
+  <div class="menu-card">
+    <span class="field-label">Difficulty</span>
+    <div class="btn-row">
+      <button class="choice-btn active" data-diff="easy">Easy</button>
+      <button class="choice-btn" data-diff="medium">Medium</button>
+      <button class="choice-btn" data-diff="hard">Hard</button>
     </div>
-
-    <div class="field-group">
-      <label>Points to Win</label>
-      <input class="points-input" type="number" id="pointsInput" value="7" min="1" max="21">
-    </div>
-
-    <button id="startBtn">Serve!</button>
+    <span class="field-label">Points to Win</span>
+    <input class="num-input" type="number" id="pointsInput" value="7" min="1" max="21">
+    <button class="start-btn" id="startBtn">&#9654;&nbsp;&nbsp;Start Game</button>
   </div>
 </div>
 
-<div id="gameWrapper">
-  <div id="scoreBoard">
-    <div class="player-score">
-      <div class="player-name">You</div>
-      <div class="score-num" id="playerScore">0</div>
+<!-- GAME -->
+<div id="screen-game">
+  <div class="scoreboard">
+    <div class="p-block">
+      <div class="p-label">You</div>
+      <div class="p-score" id="scorePlayer">0</div>
     </div>
-    <div class="vs-text">VS</div>
-    <div class="player-score">
-      <div class="player-name">Computer</div>
-      <div class="score-num" id="compScore">0</div>
-    </div>
-  </div>
-  <canvas id="canvas"></canvas>
-  <div id="gameOverOverlay">
-    <div id="gameOverMsg">YOU WIN!</div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-      <button class="end-btn" id="playAgainBtn">Play Again</button>
-      <button class="end-btn" id="toMenuBtn">Menu</button>
-      <button class="end-btn" id="exitBtn">Exit</button>
+    <div class="vs-badge">VS</div>
+    <div class="p-block">
+      <div class="p-label">Computer</div>
+      <div class="p-score" id="scoreComp">0</div>
     </div>
   </div>
+  <div id="canvas-wrap">
+    <canvas id="canvas" width="700" height="480"></canvas>
+    <div id="gameover-overlay">
+      <div class="result-emoji" id="resultEmoji">&#127942;</div>
+      <div class="result-text" id="resultText">You Win!</div>
+      <div class="result-sub"  id="resultSub">Final score: 7 – 3</div>
+      <div class="end-btns">
+        <button class="end-btn btn-again" id="btnPlayAgain">&#8635;&nbsp;&nbsp;Play Again</button>
+        <button class="end-btn btn-menu"  id="btnMenu">&#9776;&nbsp;&nbsp;Menu</button>
+        <button class="end-btn btn-exit"  id="btnExit">&#10005;&nbsp;&nbsp;Exit</button>
+      </div>
+    </div>
+  </div>
+  <div class="hint">&#8593; &#8595; Arrow keys to move &nbsp;|&nbsp; Left paddle = You</div>
 </div>
 
 <script>
-const overlay = document.getElementById('overlay');
-const gameWrapper = document.getElementById('gameWrapper');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const gameOverOverlay = document.getElementById('gameOverOverlay');
-const gameOverMsg = document.getElementById('gameOverMsg');
-const playerScoreEl = document.getElementById('playerScore');
-const compScoreEl = document.getElementById('compScore');
-
-const W = 700, H = 480;
-canvas.width = W;
-canvas.height = H;
-
-// Difficulty settings
-const DIFFICULTY = {
-  easy:   { ballSpeed: 3.5, cpuSpeed: 2.8, paddleH: 110, ballR: 10 },
-  medium: { ballSpeed: 5.5, cpuSpeed: 4.2, paddleH: 85,  ballR: 9  },
-  hard:   { ballSpeed: 8,   cpuSpeed: 6.5, paddleH: 65,  ballR: 8  },
+// ── CONFIG ────────────────────────────────────────────────
+const CONFIGS = {
+  easy:   { ballSpd:3.5, cpuSpd:2.6, padH:115, ballR:10 },
+  medium: { ballSpd:5.5, cpuSpd:4.2, padH:88,  ballR:9  },
+  hard:   { ballSpd:8.0, cpuSpd:6.5, padH:62,  ballR:8  },
 };
+const W=700, H=480, PAD_W=13, MARGIN=18;
 
-let diff = 'easy';
-let pointsToWin = 7;
-let playerScore = 0, compScore = 0;
-let animId;
+// ── STATE ─────────────────────────────────────────────────
+let diff='easy', targetScore=7;
+let pScore=0, cScore=0;
+let pY, cY, bX, bY, bVX, bVY;
+let padH, ballR, ballSpd, cpuSpd;
+let raf, running=false;
+const keys={};
 
-// Paddle dimensions
-const PADDLE_W = 14;
-let paddleH, ballR, ballSpeed, cpuSpeed;
+// ── ELEMENTS ──────────────────────────────────────────────
+const screenMenu = document.getElementById('screen-menu');
+const screenGame = document.getElementById('screen-game');
+const canvas     = document.getElementById('canvas');
+const ctx        = canvas.getContext('2d');
+const goOverlay  = document.getElementById('gameover-overlay');
+const elPS       = document.getElementById('scorePlayer');
+const elCS       = document.getElementById('scoreComp');
+const elEmoji    = document.getElementById('resultEmoji');
+const elText     = document.getElementById('resultText');
+const elSub      = document.getElementById('resultSub');
 
-let playerY, compY, ballX, ballY, ballVX, ballVY;
-const MARGIN = 16;
-const keys = {};
+// ── INPUT ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  keys[e.key]=true;
+  if(['ArrowUp','ArrowDown',' '].includes(e.key)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.key]=false; });
 
-document.addEventListener('keydown', e => { keys[e.key] = true; e.preventDefault(); });
-document.addEventListener('keyup',   e => { keys[e.key] = false; });
-
-// Difficulty buttons
-document.querySelectorAll('[data-diff]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-diff]').forEach(b => b.classList.remove('active'));
+// ── BUTTONS ───────────────────────────────────────────────
+document.querySelectorAll('[data-diff]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-diff]').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    diff = btn.dataset.diff;
+    diff=btn.dataset.diff;
   });
 });
-
 document.getElementById('startBtn').addEventListener('click', startGame);
-document.getElementById('playAgainBtn').addEventListener('click', () => { gameOverOverlay.style.display = 'none'; resetBall(); loop(); });
-document.getElementById('toMenuBtn').addEventListener('click', () => { cancelAnimationFrame(animId); gameOverOverlay.style.display = 'none'; gameWrapper.style.display = 'none'; overlay.style.display = 'flex'; });
-document.getElementById('exitBtn').addEventListener('click', () => { window.close(); /* fallback */ document.body.innerHTML = '<div style="color:#c8e8c8;font-family:Bebas Neue,cursive;font-size:2rem;display:flex;height:100vh;align-items:center;justify-content:center;background:#1a2a1a;letter-spacing:4px;">Thanks for playing!</div>'; });
+document.getElementById('btnPlayAgain').addEventListener('click', playAgain);
+document.getElementById('btnMenu').addEventListener('click', goMenu);
+document.getElementById('btnExit').addEventListener('click', exitGame);
 
-function startGame() {
-  overlay.style.display = 'none';
-  gameWrapper.style.display = 'block';
-
-  const s = DIFFICULTY[diff];
-  paddleH = s.paddleH;
-  ballR    = s.ballR;
-  ballSpeed = s.ballSpeed;
-  cpuSpeed  = s.cpuSpeed;
-  pointsToWin = parseInt(document.getElementById('pointsInput').value) || 7;
-
-  playerScore = compScore = 0;
-  playerScoreEl.textContent = 0;
-  compScoreEl.textContent   = 0;
-
-  playerY = (H - paddleH) / 2;
-  compY   = (H - paddleH) / 2;
-
-  resetBall();
-  cancelAnimationFrame(animId);
-  loop();
+// ── FLOW ──────────────────────────────────────────────────
+function applyConfig(){
+  const c=CONFIGS[diff];
+  padH=c.padH; ballR=c.ballR; ballSpd=c.ballSpd; cpuSpd=c.cpuSpd;
 }
 
-function resetBall() {
-  ballX = W / 2;
-  ballY = H / 2;
-  const angle = (Math.random() * 0.6 - 0.3);
-  const dir = Math.random() < 0.5 ? 1 : -1;
-  ballVX = ballSpeed * dir * Math.cos(angle);
-  ballVY = ballSpeed * Math.sin(angle);
+function startGame(){
+  applyConfig();
+  targetScore=Math.max(1,parseInt(document.getElementById('pointsInput').value)||7);
+  pScore=cScore=0; updateSB();
+  pY=(H-padH)/2; cY=(H-padH)/2;
+  screenMenu.style.display='none';
+  screenGame.style.display='flex';
+  goOverlay.style.display='none';
+  launch(); running=true;
+  cancelAnimationFrame(raf); tick();
 }
 
-function loop() {
-  update();
-  draw();
-  animId = requestAnimationFrame(loop);
+function playAgain(){
+  pScore=cScore=0; updateSB();
+  pY=(H-padH)/2; cY=(H-padH)/2;
+  goOverlay.style.display='none';
+  launch(); running=true;
+  cancelAnimationFrame(raf); tick();
 }
 
-function update() {
-  // Player movement
-  if (keys['ArrowUp'])   playerY = Math.max(0, playerY - 6);
-  if (keys['ArrowDown']) playerY = Math.min(H - paddleH, playerY + 6);
+function goMenu(){
+  running=false; cancelAnimationFrame(raf);
+  goOverlay.style.display='none';
+  screenGame.style.display='none';
+  screenMenu.style.display='flex';
+}
 
-  // CPU AI
-  const cpuCenter = compY + paddleH / 2;
-  if (cpuCenter < ballY - 4) compY = Math.min(H - paddleH, compY + cpuSpeed);
-  if (cpuCenter > ballY + 4) compY = Math.max(0, compY - cpuSpeed);
+function exitGame(){
+  running=false; cancelAnimationFrame(raf);
+  document.body.style.background='#0d1f0d';
+  document.body.innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+      height:100vh;gap:16px;font-family:system-ui,sans-serif;">
+      <div style="font-size:3rem;">🏓</div>
+      <div style="font-size:1.5rem;font-weight:900;color:#c0ecc0;letter-spacing:6px;text-transform:uppercase;">Thanks for playing!</div>
+      <div style="font-size:0.72rem;color:#3a6a3a;letter-spacing:3px;text-transform:uppercase;">Close this tab to exit</div>
+    </div>`;
+}
 
-  // Ball movement
-  ballX += ballVX;
-  ballY += ballVY;
+// ── BALL ──────────────────────────────────────────────────
+function launch(){
+  bX=W/2; bY=H/2;
+  const a=(Math.random()*0.7-0.35), d=Math.random()<.5?1:-1;
+  bVX=d*ballSpd*Math.cos(a); bVY=ballSpd*Math.sin(a);
+}
 
-  // Top/bottom bounce
-  if (ballY - ballR < 0) { ballY = ballR; ballVY *= -1; }
-  if (ballY + ballR > H) { ballY = H - ballR; ballVY *= -1; }
+// ── LOOP ──────────────────────────────────────────────────
+function tick(){ if(!running)return; update(); draw(); raf=requestAnimationFrame(tick); }
 
-  // Player paddle collision (left)
-  const px = MARGIN + PADDLE_W;
-  if (ballX - ballR < px && ballX - ballR > MARGIN && ballY > playerY && ballY < playerY + paddleH) {
-    ballX = px + ballR;
-    const rel = (ballY - (playerY + paddleH / 2)) / (paddleH / 2);
-    const bounceAngle = rel * 0.8;
-    const speed = Math.sqrt(ballVX*ballVX + ballVY*ballVY) * 1.05;
-    ballVX =  Math.abs(speed * Math.cos(bounceAngle));
-    ballVY = speed * Math.sin(bounceAngle);
-    if (ballVX > ballSpeed * 2.5) ballVX = ballSpeed * 2.5;
+function update(){
+  // Player
+  if(keys['ArrowUp'])   pY=Math.max(0,pY-6);
+  if(keys['ArrowDown']) pY=Math.min(H-padH,pY+6);
+  // CPU
+  const cc=cY+padH/2, delta=bY-cc;
+  if(Math.abs(delta)>2){ cY+=Math.sign(delta)*Math.min(cpuSpd,Math.abs(delta)); cY=Math.max(0,Math.min(H-padH,cY)); }
+  // Move ball
+  bX+=bVX; bY+=bVY;
+  // Wall
+  if(bY-ballR<0){bY=ballR;bVY=Math.abs(bVY);}
+  if(bY+ballR>H){bY=H-ballR;bVY=-Math.abs(bVY);}
+  // Player paddle
+  const pr=MARGIN+PAD_W;
+  if(bVX<0 && bX-ballR<=pr && bX-ballR>=MARGIN-4 && bY>=pY && bY<=pY+padH){
+    bX=pr+ballR; bounce(pY,1);
   }
-
-  // CPU paddle collision (right)
-  const cx = W - MARGIN - PADDLE_W;
-  if (ballX + ballR > cx && ballX + ballR < W - MARGIN && ballY > compY && ballY < compY + paddleH) {
-    ballX = cx - ballR;
-    const rel = (ballY - (compY + paddleH / 2)) / (paddleH / 2);
-    const bounceAngle = rel * 0.8;
-    const speed = Math.sqrt(ballVX*ballVX + ballVY*ballVY) * 1.05;
-    ballVX = -Math.abs(speed * Math.cos(bounceAngle));
-    ballVY = speed * Math.sin(bounceAngle);
-    if (Math.abs(ballVX) > ballSpeed * 2.5) ballVX = -ballSpeed * 2.5;
+  // CPU paddle
+  const cl=W-MARGIN-PAD_W;
+  if(bVX>0 && bX+ballR>=cl && bX+ballR<=W-MARGIN+4 && bY>=cY && bY<=cY+padH){
+    bX=cl-ballR; bounce(cY,-1);
   }
-
   // Score
-  if (ballX - ballR < 0) {
-    compScore++;
-    compScoreEl.textContent = compScore;
-    if (compScore >= pointsToWin) { endGame(false); return; }
-    resetBall();
-  }
-  if (ballX + ballR > W) {
-    playerScore++;
-    playerScoreEl.textContent = playerScore;
-    if (playerScore >= pointsToWin) { endGame(true); return; }
-    resetBall();
-  }
+  if(bX+ballR<0){ cScore++; updateSB(); if(cScore>=targetScore){endGame(false);return;} launch(); }
+  if(bX-ballR>W){ pScore++; updateSB(); if(pScore>=targetScore){endGame(true); return;} launch(); }
 }
 
-function draw() {
-  // Green table
-  ctx.fillStyle = '#2d6a2d';
-  ctx.fillRect(0, 0, W, H);
+function bounce(top,dir){
+  const rel=(bY-(top+padH/2))/(padH/2);
+  const a=rel*0.75;
+  const spd=Math.min(Math.sqrt(bVX*bVX+bVY*bVY)*1.04, ballSpd*2.8);
+  bVX=dir*spd*Math.cos(a); bVY=spd*Math.sin(a);
+}
 
-  // Table lines
-  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-  ctx.lineWidth = 2;
-  // Center line
-  ctx.setLineDash([10, 10]);
-  ctx.beginPath();
-  ctx.moveTo(W / 2, 0);
-  ctx.lineTo(W / 2, H);
-  ctx.stroke();
+function updateSB(){ elPS.textContent=pScore; elCS.textContent=cScore; }
+
+function endGame(win){
+  running=false; cancelAnimationFrame(raf);
+  elEmoji.textContent=win?'🏆':'😅';
+  elText.textContent=win?'You Win!':'Game Over';
+  elText.style.color=win?'#80ee80':'#ee8080';
+  elSub.textContent=`Final score: ${pScore} – ${cScore}`;
+  goOverlay.style.display='flex';
+}
+
+// ── DRAW ──────────────────────────────────────────────────
+function draw(){
+  // Table
+  const tg=ctx.createLinearGradient(0,0,0,H);
+  tg.addColorStop(0,'#286828'); tg.addColorStop(.5,'#307830'); tg.addColorStop(1,'#286828');
+  ctx.fillStyle=tg; ctx.fillRect(0,0,W,H);
+
+  // Grain lines
+  ctx.strokeStyle='rgba(0,0,0,0.05)'; ctx.lineWidth=1;
+  for(let y=0;y<H;y+=22){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Table border
+  ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=3;
+  ctx.strokeRect(5,5,W-10,H-10);
+
+  // Centre dashed line
+  ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=2;
+  ctx.setLineDash([12,10]);
+  ctx.beginPath(); ctx.moveTo(W/2,5); ctx.lineTo(W/2,H-5); ctx.stroke();
   ctx.setLineDash([]);
 
-  // Border
-  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(4, 4, W - 8, H - 8);
+  // Net glow
+  ctx.fillStyle='rgba(0,0,0,0.2)'; ctx.fillRect(W/2-4,0,8,H);
+  ctx.fillStyle='rgba(235,230,210,0.55)'; ctx.fillRect(W/2-2,0,4,H);
+  // Net posts
+  ctx.fillStyle='#bca858';
+  ctx.beginPath(); ctx.arc(W/2,0,5,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W/2,H,5,0,Math.PI*2); ctx.fill();
 
-  // Net
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  ctx.fillRect(W/2 - 2, 0, 4, H);
+  // Paddles
+  drawPaddle(MARGIN,pY,true);
+  drawPaddle(W-MARGIN-PAD_W,cY,false);
 
-  // Paddles (beige)
-  const grad1 = ctx.createLinearGradient(MARGIN, 0, MARGIN + PADDLE_W, 0);
-  grad1.addColorStop(0, '#d4b896');
-  grad1.addColorStop(1, '#c4a070');
-  ctx.fillStyle = grad1;
-  ctx.beginPath();
-  ctx.roundRect(MARGIN, playerY, PADDLE_W, paddleH, 4);
-  ctx.fill();
+  // Ball shadow
+  ctx.save(); ctx.globalAlpha=0.3; ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.ellipse(bX+3,bY+4,ballR*.9,ballR*.48,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
 
-  const grad2 = ctx.createLinearGradient(W - MARGIN - PADDLE_W, 0, W - MARGIN, 0);
-  grad2.addColorStop(0, '#c4a070');
-  grad2.addColorStop(1, '#d4b896');
-  ctx.fillStyle = grad2;
-  ctx.beginPath();
-  ctx.roundRect(W - MARGIN - PADDLE_W, compY, PADDLE_W, paddleH, 4);
-  ctx.fill();
-
-  // Ball (white with shadow)
-  ctx.shadowColor = 'rgba(0,0,0,0.5)';
-  ctx.shadowBlur = 10;
-  ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.arc(ballX, ballY, ballR, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  // Subtle highlight on ball
-  const bgrad = ctx.createRadialGradient(ballX - ballR*0.3, ballY - ballR*0.3, ballR*0.1, ballX, ballY, ballR);
-  bgrad.addColorStop(0, 'rgba(255,255,255,0.9)');
-  bgrad.addColorStop(1, 'rgba(200,200,200,0.6)');
-  ctx.fillStyle = bgrad;
-  ctx.beginPath();
-  ctx.arc(ballX, ballY, ballR, 0, Math.PI * 2);
-  ctx.fill();
+  // Ball
+  const bg=ctx.createRadialGradient(bX-ballR*.28,bY-ballR*.32,1,bX,bY,ballR);
+  bg.addColorStop(0,'#ffffff'); bg.addColorStop(.55,'#eeeeee'); bg.addColorStop(1,'#cccccc');
+  ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(bX,bY,ballR,0,Math.PI*2); ctx.fill();
+  // Specular
+  ctx.fillStyle='rgba(255,255,255,0.65)';
+  ctx.beginPath(); ctx.arc(bX-ballR*.28,bY-ballR*.32,ballR*.26,0,Math.PI*2); ctx.fill();
 }
 
-function endGame(playerWon) {
-  cancelAnimationFrame(animId);
-  gameOverMsg.textContent = playerWon ? 'YOU WIN! 🏆' : 'GAME OVER';
-  gameOverMsg.style.color = playerWon ? '#a0f0a0' : '#f0a0a0';
-  gameOverOverlay.style.display = 'flex';
+function drawPaddle(x,y,isLeft){
+  const r=5;
+  // Shadow
+  ctx.save(); ctx.globalAlpha=.28; ctx.fillStyle='#000';
+  ctx.beginPath(); roundRect(x+4,y+4,PAD_W,padH,r); ctx.fill(); ctx.restore();
+  // Body
+  const pg=ctx.createLinearGradient(x,0,x+PAD_W,0);
+  if(isLeft){ pg.addColorStop(0,'#e8cfa0'); pg.addColorStop(.4,'#d4b878'); pg.addColorStop(1,'#c09058'); }
+  else       { pg.addColorStop(0,'#c09058'); pg.addColorStop(.6,'#d4b878'); pg.addColorStop(1,'#e8cfa0'); }
+  ctx.fillStyle=pg; ctx.beginPath(); roundRect(x,y,PAD_W,padH,r); ctx.fill();
+  // Grip
+  ctx.strokeStyle='rgba(120,78,30,0.35)'; ctx.lineWidth=1;
+  const spacing=10, count=Math.floor(padH/spacing)-1;
+  for(let i=1;i<=count;i++){
+    const ly=y+i*spacing;
+    ctx.beginPath(); ctx.moveTo(x+2,ly); ctx.lineTo(x+PAD_W-2,ly); ctx.stroke();
+  }
+  // Highlight
+  ctx.strokeStyle='rgba(255,248,200,0.28)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); roundRect(x+.75,y+.75,PAD_W-1.5,padH-1.5,r); ctx.stroke();
+}
+
+// roundRect polyfill
+function roundRect(x,y,w,h,r){
+  if(ctx.roundRect){ ctx.roundRect(x,y,w,h,r); return; }
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
 }
 </script>
 </body>
